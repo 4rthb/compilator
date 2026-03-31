@@ -1,1 +1,10 @@
-.vscode
+# Build artifacts
+*.o
+*.exe
+*.out
+*.s
+*.output
+lex.yy.*
+parser.tab.*
+asm.s
+output

@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 	// Falta do arquivo de entrada
 	if (argc < 3)
 	{
-		printf("Call: ./etapa5 input.txt output.txt\n");
+		printf("Call: ./compiler input.txt output.txt\n");
 		exit(1);
 	}
 
