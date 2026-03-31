@@ -57,7 +57,13 @@ int main(int argc, char** argv)
 	yyparse();
 	
 	astDecompile(ASTroot);
+
 	check_semantic(ASTroot);
+	if((semanticErrors = get_semantic_errors()) != 0)
+	{
+		printf("Compilation aborted! %d semantic errors!\n", semanticErrors);
+		exit(4);
+	}
 
 	hashPrint();
 	astPrint(ASTroot, 0);
@@ -66,13 +72,6 @@ int main(int argc, char** argv)
 	tacPrintBackwards(code);
 	code = tacReverse(code);
 	generateAsm(code);
-
-
-	if((semanticErrors = get_semantic_errors()) != 0)
-	{
-		printf("Compilation aborted! %d semantic errors!\n", semanticErrors);
-		exit(4);
-	}
 
 	printf("File has %d lines\n", getLineNumber());
 

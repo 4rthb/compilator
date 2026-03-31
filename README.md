@@ -19,17 +19,25 @@ The compiler includes the following phases:
 - Three-address code (TAC) generation and assembly output (`tacs.c` / `tacs.h`)
 - Driver program with file I/O and pipeline orchestration (`main.c`)
 
-## Repository Layout
+## Folder Structure
 
-- `main.c` — compiler driver, command line handling, and compilation pipeline
-- `scanner.l` — lexical rules and token generation
-- `parser.y` — grammar, AST construction, and syntax error handling
-- `hash.c` / `hash.h` — symbol table implementation and temporary label generation
-- `ast.c` / `ast.h` — AST node creation, printing, and decompilation
-- `semantic.c` / `semantic.h` — semantic validation and type checking
-- `tacs.c` / `tacs.h` — TAC generation, TAC printing, and assembly output
 - `Makefile` — build targets for compilation and cleanup
-- `test/` — example source programs and expected output files
+- `README.md` — this file.
+- `src/` — contains all source files (`.c`, `.h`, `.l`, `.y`).
+- `bin/` — contains the final compiled executable.
+- `obj/` — contains intermediate object files (`.o`) generated during compilation.
+- `test/` — contains example source programs for testing.
+
+## Compiler Pipeline
+
+The compilation process is orchestrated in `main.c` and follows these steps:
+
+1.  **Argument Parsing**: The compiler expects an input source file and an output file path.
+2.  **Parsing**: `yyparse()` is called, which uses the lexer (`scanner.l`) and parser (`parser.y`) to build an Abstract Syntax Tree (AST).
+3.  **Decompilation**: The generated AST is "decompiled" back into source-like code and written to the specified output file. This serves as a verification of the AST structure.
+4.  **Semantic Analysis**: The AST is traversed to check for semantic errors (e.g., type mismatches, undeclared variables). If errors are found, compilation is aborted.
+5.  **Code Generation**: If semantics are valid, the AST is used to generate Three-Address Code (TAC).
+6.  **Assembly Generation**: The TAC is then translated into x86-64 assembly code, which is written to `output.s`.
 
 ## Supported Language Features
 
@@ -74,7 +82,8 @@ make clean
 Compile and execute a source file with:
 
 ```bash
-./compiler input.txt output.txt
+make
+./bin/compiler input.txt output.txt
 ```
 
 - `input.txt` is the source program in the compiler language

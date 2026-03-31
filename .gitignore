@@ -4,6 +4,7 @@
 *.out
 *.s
 *.output
+*.txt
 lex.yy.*
 parser.tab.*
 asm.s
